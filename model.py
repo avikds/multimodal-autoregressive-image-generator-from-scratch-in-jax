@@ -202,8 +202,14 @@ def reassemble_patches_into_image(flat_patches, grid_h, grid_w, patch_size):
         grid_w * patch_size,
     )
 
-# Step 11 - init_codebook (not yet solved)
-# TODO: implement
+# Step 11 - init_codebook
+def init_codebook(key, num_codes, latent_dim):
+    # Initialize the codebook with small, zero-centered random values.
+    return jax.random.normal(
+        key,
+        shape=(num_codes, latent_dim),
+        dtype=jnp.float32,
+    ) * 0.1
 
 # Step 12 - squared_distance_to_codebook (not yet solved)
 # TODO: implement
