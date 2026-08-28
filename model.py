@@ -258,8 +258,10 @@ def commitment_loss(latents, quantized):
     # Mean squared error over all patches and latent dimensions.
     return jnp.mean((latents - stopped_quantized) ** 2)
 
-# Step 19 - reconstruction_loss (not yet solved)
-# TODO: implement
+# Step 19 - reconstruction_loss
+def reconstruction_loss(image, reconstruction):
+    # Mean squared error over all pixels.
+    return jnp.mean((image - reconstruction) ** 2)
 
 # Step 20 - total_vqvae_loss (not yet solved)
 # TODO: implement
