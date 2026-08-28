@@ -211,8 +211,10 @@ def init_codebook(key, num_codes, latent_dim):
         dtype=jnp.float32,
     ) * 0.1
 
-# Step 12 - squared_distance_to_codebook (not yet solved)
-# TODO: implement
+# Step 12 - squared_distance_to_codebook
+def squared_distance_to_codebook(latent, codebook):
+    # Compute squared Euclidean distance to every codebook vector.
+    return jnp.sum((codebook - latent) ** 2, axis=1)
 
 # Step 13 - grid_distances_to_codebook (not yet solved)
 # TODO: implement
