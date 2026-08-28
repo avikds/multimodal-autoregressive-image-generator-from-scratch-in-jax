@@ -178,8 +178,10 @@ def init_patch_decoder(key, latent_dim, patch_dim):
         / jnp.sqrt(latent_dim)
     )
 
-# Step 9 - decode_latents (not yet solved)
-# TODO: implement
+# Step 9 - decode_latents
+def decode_latents(latents, decoder_weight):
+    # Project each latent vector back to the flat patch space.
+    return latents @ decoder_weight
 
 # Step 10 - reassemble_patches_into_image (not yet solved)
 # TODO: implement
