@@ -729,8 +729,9 @@ def drop_text_prefix(
 
     return jnp.where(drop, dropped_sequence, sequence).astype(jnp.int32)
 
-# Step 53 - combine_guided_logits (not yet solved)
-# TODO: implement
+# Step 53 - combine_guided_logits
+def combine_guided_logits(cond_logits, uncond_logits, guidance_scale):
+    return uncond_logits + guidance_scale * (cond_logits - uncond_logits)
 
 # Step 54 - logits_to_probabilities (not yet solved)
 # TODO: implement
