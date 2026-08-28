@@ -904,8 +904,57 @@ def decode_tokens_to_image(
         patch_size,
     )
 
-# Step 59 - next_token_accuracy (not yet solved)
-# TODO: implement
+# Step 59 - next_token_accuracy
+def next_token_accuracy(
+    params,
+    batch_sequences,
+    causal_mask,
+    num_heads,
+    image_start_index,
+):
+    accuracies = []
+
+    for sequence in batch_sequences:
+        # Look up token embeddings.
+        hidden_states = lookup_token_embeddings(
+            params["token_embedding"],
+            sequence,
+        )
+
+        # Add positional embeddings.
+        hidden_states = add_positional_embeddings(
+            hidden_states,
+            params["positional_embedding"],
+        )
+
+        # Run the transformer backbone.
+        hidden_states = transformer_backbone(
+            hidden_states,
+            params["blocks"],
+            causal_mask,
+            num_heads,
+        )
+
+        # Project to vocabulary logits.
+        logits = project_to_logits(
+            hidden_states,
+            params["output"],
+        )
+
+        # Logits at t predict the token at t + 1.
+        image_logits = logits[image_start_index - 1:-1]
+        image_targets = sequence[image_start_index:]
+
+        # Greedy next-token predictions.
+        predictions = jnp.argmax(image_logits, axis=-1)
+
+        # Accuracy for this sequence.
+        accuracies.append(
+            jnp.mean(predictions == image_targets)
+        )
+
+    # Average accuracy across the batch.
+    return jnp.mean(jnp.stack(accuracies))
 
 # Step 60 - average_reconstruction_error (not yet solved)
 # TODO: implement

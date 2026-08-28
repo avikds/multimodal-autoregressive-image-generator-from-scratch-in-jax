@@ -68,7 +68,7 @@ python scaffold.py
 - [x] **56.** sample_token_index
 - [x] **57.** generate_image_tokens
 - [x] **58.** decode_tokens_to_image
-- [ ] **59.** next_token_accuracy
+- [x] **59.** next_token_accuracy
 - [ ] **60.** average_reconstruction_error
 - [ ] **61.** nearest_neighbor_distance_to_dataset
 - [ ] **62.** train_vqvae_on_toy_images
