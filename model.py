@@ -647,6 +647,8 @@ def image_token_cross_entropy(logits, target_ids, image_start_index):
     return jnp.mean(losses)
 
 # Step 50 - transformer_loss_and_grads
+jax.config.update("jax_enable_x64", True)
+
 def transformer_loss_and_grads(
     params,
     batch_sequences,
