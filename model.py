@@ -250,8 +250,13 @@ def codebook_loss(latents, quantized):
     # Mean squared error over all patches and latent dimensions.
     return jnp.mean((stopped_latents - quantized) ** 2)
 
-# Step 18 - commitment_loss (not yet solved)
-# TODO: implement
+# Step 18 - commitment_loss
+def commitment_loss(latents, quantized):
+    # Stop gradients from flowing into the codebook.
+    stopped_quantized = jax.lax.stop_gradient(quantized)
+
+    # Mean squared error over all patches and latent dimensions.
+    return jnp.mean((latents - stopped_quantized) ** 2)
 
 # Step 19 - reconstruction_loss (not yet solved)
 # TODO: implement
