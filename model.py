@@ -600,8 +600,17 @@ def transformer_block(x, block_params, causal_mask, num_heads):
     # Second residual connection.
     return x + mlp_output
 
-# Step 46 - transformer_backbone (not yet solved)
-# TODO: implement
+# Step 46 - transformer_backbone
+def transformer_backbone(x, blocks_params, causal_mask, num_heads):
+    for block_params in blocks_params:
+        x = transformer_block(
+            x,
+            block_params,
+            causal_mask,
+            num_heads,
+        )
+
+    return x
 
 # Step 47 - init_output_projection (not yet solved)
 # TODO: implement

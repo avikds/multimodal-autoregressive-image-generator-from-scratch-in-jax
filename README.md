@@ -55,7 +55,7 @@ python scaffold.py
 - [x] **43.** init_feedforward_params
 - [x] **44.** feedforward_mlp
 - [x] **45.** transformer_block
-- [ ] **46.** transformer_backbone
+- [x] **46.** transformer_backbone
 - [ ] **47.** init_output_projection
 - [ ] **48.** project_to_logits
 - [ ] **49.** image_token_cross_entropy
