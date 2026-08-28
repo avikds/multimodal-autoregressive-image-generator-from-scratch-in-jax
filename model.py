@@ -1127,6 +1127,72 @@ def train_transformer_on_token_sequences(
 
     return params, opt_state, loss_history
 
-# Step 64 - generate_image_from_label (not yet solved)
-# TODO: implement
+# Step 64 - generate_image_from_label
+def generate_image_from_label(
+    label,
+    vocab,
+    transformer_params,
+    codebook,
+    decoder_params,
+    grid_shape,
+    text_len,
+    num_image_tokens,
+    key,
+    guidance_scale,
+    temperature,
+    top_k,
+):
+    # Encode the text label into character IDs.
+    label_ids = encode_label_to_ids(label, vocab)
+
+    # Truncate to text_len if necessary.
+    label_ids = label_ids[:text_len]
+
+    # Pad with zeros to exactly text_len.
+    pad_len = text_len - label_ids.shape[0]
+
+    if pad_len > 0:
+        label_ids = jnp.concatenate(
+            [
+                label_ids,
+                jnp.zeros(pad_len, dtype=jnp.int32),
+            ]
+        )
+
+    # Null prefix for classifier-free guidance.
+    null_prefix = jnp.zeros(
+        (text_len,),
+        dtype=jnp.int32,
+    )
+
+    # Image tokens occupy a range after the text vocabulary.
+    image_token_offset = len(vocab)
+
+    # Autoregressively generate the image tokens.
+    generated_tokens = generate_image_tokens(
+        transformer_params,
+        label_ids,
+        key,
+        num_image_tokens,
+        transformer_params["num_heads"],
+        null_prefix,
+        guidance_scale,
+        temperature,
+        top_k,
+    )
+
+    # Undo the offset applied during multimodal sequence construction.
+    image_tokens = generated_tokens - image_token_offset
+
+    # grid_shape = (grid_size, patch_size)
+    grid_size, patch_size = grid_shape
+
+    # Decode the cleaned image-token sequence into an image.
+    return decode_tokens_to_image(
+        image_tokens,
+        codebook,
+        decoder_params,
+        grid_size,
+        patch_size,
+    )
 
