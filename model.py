@@ -161,8 +161,10 @@ def init_patch_encoder(key, patch_dim, latent_dim):
         / jnp.sqrt(patch_dim)
     )
 
-# Step 7 - encode_patches (not yet solved)
-# TODO: implement
+# Step 7 - encode_patches
+def encode_patches(flat_patches, encoder_weight):
+    # Project each flattened patch into the latent space.
+    return flat_patches @ encoder_weight
 
 # Step 8 - init_patch_decoder (not yet solved)
 # TODO: implement
