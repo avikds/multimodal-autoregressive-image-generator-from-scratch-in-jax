@@ -140,8 +140,26 @@ def flatten_patches(patches):
 
     return patches.reshape(gh * gw, -1)
 
-# Step 6 - init_patch_encoder (not yet solved)
-# TODO: implement
+# Step 6 - init_patch_encoder
+def init_patch_encoder(key, patch_dim, latent_dim):
+    """Initialize the linear patch encoder weights.
+
+    Args:
+        key: JAX PRNG key.
+        patch_dim: Number of pixels in a flattened patch.
+        latent_dim: Size of the latent representation.
+
+    Returns:
+        jnp.ndarray: Weight matrix of shape (patch_dim, latent_dim).
+    """
+    return (
+        jax.random.normal(
+            key,
+            shape=(patch_dim, latent_dim),
+            dtype=jnp.float32,
+        )
+        / jnp.sqrt(patch_dim)
+    )
 
 # Step 7 - encode_patches (not yet solved)
 # TODO: implement
