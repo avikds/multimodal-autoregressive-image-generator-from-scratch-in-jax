@@ -7,8 +7,11 @@ Assembled from your step-by-step solutions.
 import numpy as np
 
 # Step 1 - generate_toy_images
+import numpy as np
 import jax
 import jax.numpy as jnp
+import optax
+
 jax.config.update("jax_enable_x64", True)
 
 def generate_toy_images(key, num_images, image_size):
