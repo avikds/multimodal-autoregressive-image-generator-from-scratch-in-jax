@@ -39,7 +39,7 @@ python scaffold.py
 - [x] **27.** encode_label_to_ids
 - [x] **28.** form_multimodal_sequence
 - [x] **29.** init_token_embedding
-- [ ] **30.** init_positional_embedding
+- [x] **30.** init_positional_embedding
 - [ ] **31.** lookup_token_embeddings
 - [ ] **32.** add_positional_embeddings
 - [ ] **33.** build_causal_mask

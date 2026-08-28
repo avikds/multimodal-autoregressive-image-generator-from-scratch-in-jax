@@ -425,8 +425,14 @@ def init_token_embedding(key, vocab_size, embed_dim):
         dtype=jnp.float32,
     ) * 0.02
 
-# Step 30 - init_positional_embedding (not yet solved)
-# TODO: implement
+# Step 30 - init_positional_embedding
+def init_positional_embedding(key, max_seq_len, embed_dim):
+    # Initialize a small random learned positional embedding table.
+    return jax.random.normal(
+        key,
+        shape=(max_seq_len, embed_dim),
+        dtype=jnp.float32,
+    ) * 0.02
 
 # Step 31 - lookup_token_embeddings (not yet solved)
 # TODO: implement
