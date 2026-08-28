@@ -31,7 +31,7 @@ python scaffold.py
 - [x] **19.** reconstruction_loss
 - [x] **20.** total_vqvae_loss
 - [x] **21.** vqvae_loss_and_grads
-- [ ] **22.** apply_vqvae_update
+- [x] **22.** apply_vqvae_update
 - [ ] **23.** encode_image_to_tokens
 - [ ] **24.** flatten_token_grid
 - [ ] **25.** reshape_tokens_to_grid
