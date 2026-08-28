@@ -226,8 +226,10 @@ def grid_distances_to_codebook(latents, codebook):
         axis=-1,
     )
 
-# Step 14 - assign_nearest_codes (not yet solved)
-# TODO: implement
+# Step 14 - assign_nearest_codes
+def assign_nearest_codes(distances):
+    # Return the nearest codebook index for each latent.
+    return jnp.argmin(distances, axis=1)
 
 # Step 15 - lookup_codebook_vectors (not yet solved)
 # TODO: implement
