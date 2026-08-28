@@ -358,8 +358,30 @@ def apply_vqvae_update(params, grads, opt_state, optimizer):
 
     return new_params, new_opt_state
 
-# Step 23 - encode_image_to_tokens (not yet solved)
-# TODO: implement
+# Step 23 - encode_image_to_tokens
+def encode_image_to_tokens(image, params, patch_size):
+    # Split the image into patches.
+    patches = split_image_into_patches(image, patch_size)
+
+    # Flatten each patch into a vector.
+    flat_patches = flatten_patches(patches)
+
+    # Encode patches into latent vectors.
+    latents = encode_patches(flat_patches, params["encoder"])
+
+    # Compute distances from each latent to every codebook vector.
+    distances = grid_distances_to_codebook(
+        latents,
+        params["codebook"],
+    )
+
+    # Assign each patch to its nearest codebook entry.
+    indices = assign_nearest_codes(distances)
+
+    # Restore the original patch-grid layout.
+    grid_h, grid_w = patches.shape[:2]
+
+    return indices.reshape(grid_h, grid_w)
 
 # Step 24 - flatten_token_grid (not yet solved)
 # TODO: implement
