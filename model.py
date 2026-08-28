@@ -439,8 +439,11 @@ def lookup_token_embeddings(token_embedding, token_ids):
     # Select the embedding vector for each token ID.
     return token_embedding[token_ids]
 
-# Step 32 - add_positional_embeddings (not yet solved)
-# TODO: implement
+# Step 32 - add_positional_embeddings
+def add_positional_embeddings(token_embeds, positional_embedding):
+    # Use only the positional embeddings needed for this sequence.
+    seq_len = token_embeds.shape[0]
+    return token_embeds + positional_embedding[:seq_len]
 
 # Step 33 - build_causal_mask (not yet solved)
 # TODO: implement

@@ -41,7 +41,7 @@ python scaffold.py
 - [x] **29.** init_token_embedding
 - [x] **30.** init_positional_embedding
 - [x] **31.** lookup_token_embeddings
-- [ ] **32.** add_positional_embeddings
+- [x] **32.** add_positional_embeddings
 - [ ] **33.** build_causal_mask
 - [ ] **34.** layer_norm
 - [ ] **35.** init_attention_params
