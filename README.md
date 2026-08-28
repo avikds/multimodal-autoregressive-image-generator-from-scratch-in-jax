@@ -33,7 +33,7 @@ python scaffold.py
 - [x] **21.** vqvae_loss_and_grads
 - [x] **22.** apply_vqvae_update
 - [x] **23.** encode_image_to_tokens
-- [ ] **24.** flatten_token_grid
+- [x] **24.** flatten_token_grid
 - [ ] **25.** reshape_tokens_to_grid
 - [ ] **26.** build_char_vocab
 - [ ] **27.** encode_label_to_ids

@@ -383,8 +383,10 @@ def encode_image_to_tokens(image, params, patch_size):
 
     return indices.reshape(grid_h, grid_w)
 
-# Step 24 - flatten_token_grid (not yet solved)
-# TODO: implement
+# Step 24 - flatten_token_grid
+def flatten_token_grid(token_grid):
+    # Flatten the 2D token grid into a 1D row-major sequence.
+    return token_grid.reshape(-1)
 
 # Step 25 - reshape_tokens_to_grid (not yet solved)
 # TODO: implement
