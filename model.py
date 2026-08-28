@@ -12,7 +12,7 @@ import jax
 import jax.numpy as jnp
 import optax
 
-#jax.config.update("jax_enable_x64", True)
+jax.config.update("jax_enable_x64", True)
 
 def generate_toy_images(key, num_images, image_size):
     """Generate tiny grayscale images containing one randomly placed bright square.
