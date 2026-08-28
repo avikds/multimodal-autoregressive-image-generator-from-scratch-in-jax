@@ -629,17 +629,74 @@ def project_to_logits(hidden_states, output_params):
 
 # Step 49 - image_token_cross_entropy
 def image_token_cross_entropy(logits, target_ids, image_start_index):
-    # Logits at position t predict the target at position t + 1.
+    # Use higher precision for the cross-entropy calculation.
+    logits = jnp.asarray(logits, dtype=jnp.float64)
+
     image_logits = logits[image_start_index - 1:-1]
     image_targets = target_ids[image_start_index:]
 
     log_probs = jax.nn.log_softmax(image_logits, axis=-1)
-    losses = -log_probs[jnp.arange(image_targets.shape[0]), image_targets]
+
+    losses = -log_probs[
+        jnp.arange(image_targets.shape[0]),
+        image_targets,
+    ]
 
     return jnp.mean(losses)
 
-# Step 50 - transformer_loss_and_grads (not yet solved)
-# TODO: implement
+# Step 50 - transformer_loss_and_grads
+def transformer_loss_and_grads(
+    params,
+    batch_sequences,
+    causal_mask,
+    num_heads,
+    image_start_index,
+):
+    def loss_fn(params):
+        def sequence_loss(sequence):
+            # Look up token embeddings.
+            hidden_states = lookup_token_embeddings(
+                params["token_embedding"],
+                sequence,
+            )
+
+            # Add positional embeddings.
+            hidden_states = add_positional_embeddings(
+                hidden_states,
+                params["positional_embedding"],
+            )
+
+            # Run the transformer backbone.
+            hidden_states = transformer_backbone(
+                hidden_states,
+                params["blocks"],
+                causal_mask,
+                num_heads,
+            )
+
+            # Project hidden states to vocabulary logits.
+            logits = project_to_logits(
+                hidden_states,
+                params["output"],
+            )
+
+            # Compute loss only on image-token predictions.
+            return image_token_cross_entropy(
+                logits,
+                sequence,
+                image_start_index,
+            )
+
+        # Compute one loss per sequence.
+        per_sequence_losses = jax.vmap(sequence_loss)(batch_sequences)
+
+        # Mean loss over the batch.
+        return jnp.mean(per_sequence_losses)
+
+    # Compute loss and gradients with respect to the full parameter pytree.
+    loss, grads = jax.value_and_grad(loss_fn)(params)
+
+    return loss, grads
 
 # Step 51 - apply_transformer_update (not yet solved)
 # TODO: implement
