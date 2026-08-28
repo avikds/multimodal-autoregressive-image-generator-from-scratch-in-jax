@@ -400,8 +400,13 @@ def build_char_vocab(labels):
 
     return {char: idx for idx, char in enumerate(characters)}
 
-# Step 27 - encode_label_to_ids (not yet solved)
-# TODO: implement
+# Step 27 - encode_label_to_ids
+def encode_label_to_ids(label, char_vocab):
+    # Map each character to its vocabulary ID.
+    return jnp.array(
+        [char_vocab[char] for char in label],
+        dtype=jnp.int32,
+    )
 
 # Step 28 - form_multimodal_sequence (not yet solved)
 # TODO: implement
