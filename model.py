@@ -612,8 +612,15 @@ def transformer_backbone(x, blocks_params, causal_mask, num_heads):
 
     return x
 
-# Step 47 - init_output_projection (not yet solved)
-# TODO: implement
+# Step 47 - init_output_projection
+def init_output_projection(key, d_model, vocab_size):
+    w_out = 0.02 * jax.random.normal(key, (d_model, vocab_size))
+    b_out = jnp.zeros((vocab_size,), dtype=jnp.float32)
+
+    return {
+        "w_out": w_out,
+        "b_out": b_out,
+    }
 
 # Step 48 - project_to_logits (not yet solved)
 # TODO: implement
