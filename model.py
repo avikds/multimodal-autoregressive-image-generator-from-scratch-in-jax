@@ -866,8 +866,43 @@ def generate_image_tokens(
 
     return generated_tokens
 
-# Step 58 - decode_tokens_to_image (not yet solved)
-# TODO: implement
+# Step 58 - decode_tokens_to_image
+def decode_tokens_to_image(
+    image_tokens,
+    codebook,
+    decoder_params,
+    grid_size,
+    patch_size,
+):
+    # Restore the 2D token grid.
+    token_grid = reshape_tokens_to_grid(
+        image_tokens,
+        grid_size,
+        grid_size,
+    )
+
+    # Flatten the grid for codebook lookup.
+    token_indices = flatten_token_grid(token_grid)
+
+    # Look up the corresponding codebook latent vectors.
+    latents = lookup_codebook_vectors(
+        token_indices,
+        codebook,
+    )
+
+    # Decode latent vectors back into flat image patches.
+    flat_patches = decode_latents(
+        latents,
+        decoder_params["decoder"],
+    )
+
+    # Stitch the decoded patches into the full image.
+    return reassemble_patches_into_image(
+        flat_patches,
+        grid_size,
+        grid_size,
+        patch_size,
+    )
 
 # Step 59 - next_token_accuracy (not yet solved)
 # TODO: implement
