@@ -546,8 +546,16 @@ def init_feedforward_params(key, d_model, d_ff):
         "w2": w2,
     }
 
-# Step 44 - feedforward_mlp (not yet solved)
-# TODO: implement
+# Step 44 - feedforward_mlp
+def feedforward_mlp(x, ff_params):
+    # Expand to d_ff.
+    hidden = x @ ff_params["w1"]
+
+    # Apply GELU activation.
+    hidden = jax.nn.gelu(hidden)
+
+    # Project back to d_model.
+    return hidden @ ff_params["w2"]
 
 # Step 45 - transformer_block (not yet solved)
 # TODO: implement
