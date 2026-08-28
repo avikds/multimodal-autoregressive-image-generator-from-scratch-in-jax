@@ -125,8 +125,20 @@ def split_image_into_patches(image, patch_size):
         patch_size,
     ).transpose(0, 2, 1, 3)
 
-# Step 5 - flatten_patches (not yet solved)
-# TODO: implement
+# Step 5 - flatten_patches
+def flatten_patches(patches):
+    """Flatten each patch in a patch grid into a 1D vector.
+
+    Args:
+        patches: JAX array whose first two dimensions are the patch grid
+                 (gh, gw), followed by the patch-element dimensions.
+
+    Returns:
+        jnp.ndarray: Shape (gh * gw, product of all remaining dimensions).
+    """
+    gh, gw = patches.shape[:2]
+
+    return patches.reshape(gh * gw, -1)
 
 # Step 6 - init_patch_encoder (not yet solved)
 # TODO: implement
