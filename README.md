@@ -25,7 +25,7 @@ python scaffold.py
 - [x] **13.** grid_distances_to_codebook
 - [x] **14.** assign_nearest_codes
 - [x] **15.** lookup_codebook_vectors
-- [ ] **16.** straight_through_quantize
+- [x] **16.** straight_through_quantize
 - [ ] **17.** codebook_loss
 - [ ] **18.** commitment_loss
 - [ ] **19.** reconstruction_loss

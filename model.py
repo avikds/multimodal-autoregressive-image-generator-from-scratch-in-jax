@@ -236,8 +236,11 @@ def lookup_codebook_vectors(indices, codebook):
     # Look up the codebook vector corresponding to each token index.
     return codebook[indices]
 
-# Step 16 - straight_through_quantize (not yet solved)
-# TODO: implement
+# Step 16 - straight_through_quantize
+def straight_through_quantize(latents, quantized):
+    # Forward pass: quantized
+    # Backward pass: gradient flows through latents.
+    return latents + jax.lax.stop_gradient(quantized - latents)
 
 # Step 17 - codebook_loss (not yet solved)
 # TODO: implement
