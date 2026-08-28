@@ -631,6 +631,9 @@ def project_to_logits(hidden_states, output_params):
 
 # Step 49 - image_token_cross_entropy
 def image_token_cross_entropy(logits, target_ids, image_start_index):
+    # Use higher precision for the cross-entropy calculation.
+    logits = jnp.asarray(logits, dtype=jnp.float64)
+
     image_logits = logits[image_start_index - 1:-1]
     image_targets = target_ids[image_start_index:]
 
