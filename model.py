@@ -733,8 +733,16 @@ def drop_text_prefix(
 def combine_guided_logits(cond_logits, uncond_logits, guidance_scale):
     return uncond_logits + guidance_scale * (cond_logits - uncond_logits)
 
-# Step 54 - logits_to_probabilities (not yet solved)
-# TODO: implement
+# Step 54 - logits_to_probabilities
+def logits_to_probabilities(logits, temperature):
+    # Scale logits by temperature.
+    scaled_logits = logits / temperature
+
+    # Numerically stable softmax.
+    shifted_logits = scaled_logits - jnp.max(scaled_logits, axis=-1, keepdims=True)
+    exp_logits = jnp.exp(shifted_logits)
+
+    return exp_logits / jnp.sum(exp_logits, axis=-1, keepdims=True)
 
 # Step 55 - top_k_filter_logits (not yet solved)
 # TODO: implement
