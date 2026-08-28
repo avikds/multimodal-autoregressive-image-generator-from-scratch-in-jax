@@ -17,7 +17,7 @@ python scaffold.py
 - [x] **5.** flatten_patches
 - [x] **6.** init_patch_encoder
 - [x] **7.** encode_patches
-- [ ] **8.** init_patch_decoder
+- [x] **8.** init_patch_decoder
 - [ ] **9.** decode_latents
 - [ ] **10.** reassemble_patches_into_image
 - [ ] **11.** init_codebook
