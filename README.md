@@ -46,7 +46,7 @@ python scaffold.py
 - [x] **34.** layer_norm
 - [x] **35.** init_attention_params
 - [x] **36.** project_qkv
-- [ ] **37.** reshape_to_heads
+- [x] **37.** reshape_to_heads
 - [ ] **38.** scaled_dot_product_scores
 - [ ] **39.** add_causal_mask_to_scores
 - [ ] **40.** attention_weights_softmax
