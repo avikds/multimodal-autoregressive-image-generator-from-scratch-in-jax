@@ -523,8 +523,15 @@ def weighted_sum_of_values(attn_weights, v_heads):
     # Combine value vectors using the attention weights for each head.
     return jnp.matmul(attn_weights, v_heads)
 
-# Step 42 - merge_heads_and_project (not yet solved)
-# TODO: implement
+# Step 42 - merge_heads_and_project
+def merge_heads_and_project(head_outputs, attn_params):
+    # Move heads after the sequence dimension, then merge them into d_model.
+    merged = head_outputs.transpose(1, 0, 2).reshape(
+        head_outputs.shape[1], -1
+    )
+
+    # Apply the output projection.
+    return merged @ attn_params["wo"]
 
 # Step 43 - init_feedforward_params (not yet solved)
 # TODO: implement

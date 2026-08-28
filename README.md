@@ -51,7 +51,7 @@ python scaffold.py
 - [x] **39.** add_causal_mask_to_scores
 - [x] **40.** attention_weights_softmax
 - [x] **41.** weighted_sum_of_values
-- [ ] **42.** merge_heads_and_project
+- [x] **42.** merge_heads_and_project
 - [ ] **43.** init_feedforward_params
 - [ ] **44.** feedforward_mlp
 - [ ] **45.** transformer_block
