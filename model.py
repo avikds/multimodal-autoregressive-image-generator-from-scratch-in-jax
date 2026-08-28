@@ -388,8 +388,10 @@ def flatten_token_grid(token_grid):
     # Flatten the 2D token grid into a 1D row-major sequence.
     return token_grid.reshape(-1)
 
-# Step 25 - reshape_tokens_to_grid (not yet solved)
-# TODO: implement
+# Step 25 - reshape_tokens_to_grid
+def reshape_tokens_to_grid(token_sequence, grid_h, grid_w):
+    # Restore the 1D row-major token sequence to a 2D grid.
+    return token_sequence.reshape(grid_h, grid_w)
 
 # Step 26 - build_char_vocab (not yet solved)
 # TODO: implement
