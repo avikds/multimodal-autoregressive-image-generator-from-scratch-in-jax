@@ -511,8 +511,12 @@ def add_causal_mask_to_scores(scores, causal_mask):
     # Broadcast the causal mask across all attention heads.
     return scores + causal_mask
 
-# Step 40 - attention_weights_softmax (not yet solved)
-# TODO: implement
+# Step 40 - attention_weights_softmax
+def attention_weights_softmax(masked_scores):
+    # Numerically stable softmax over the key axis.
+    shifted = masked_scores - jnp.max(masked_scores, axis=-1, keepdims=True)
+    exp_scores = jnp.exp(shifted)
+    return exp_scores / jnp.sum(exp_scores, axis=-1, keepdims=True)
 
 # Step 41 - weighted_sum_of_values (not yet solved)
 # TODO: implement
