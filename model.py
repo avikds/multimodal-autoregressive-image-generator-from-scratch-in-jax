@@ -454,8 +454,16 @@ def build_causal_mask(seq_len):
         -1e9,
     )
 
-# Step 34 - layer_norm (not yet solved)
-# TODO: implement
+# Step 34 - layer_norm
+def layer_norm(x, scale, shift, eps=1e-5):
+    # Compute mean and variance over the last (feature) axis.
+    mean = jnp.mean(x, axis=-1, keepdims=True)
+    variance = jnp.mean((x - mean) ** 2, axis=-1, keepdims=True)
+
+    # Normalize and apply learned affine parameters.
+    normalized = (x - mean) / jnp.sqrt(variance + eps)
+
+    return normalized * scale + shift
 
 # Step 35 - init_attention_params (not yet solved)
 # TODO: implement
