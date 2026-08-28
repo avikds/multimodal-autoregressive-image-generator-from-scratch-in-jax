@@ -465,8 +465,25 @@ def layer_norm(x, scale, shift, eps=1e-5):
 
     return normalized * scale + shift
 
-# Step 35 - init_attention_params (not yet solved)
-# TODO: implement
+# Step 35 - init_attention_params
+def init_attention_params(key, d_model):
+    # Split the PRNG key so each projection gets independent weights.
+    wq_key, wk_key, wv_key, wo_key = jax.random.split(key, 4)
+
+    return {
+        "wq": jax.random.normal(
+            wq_key, (d_model, d_model), dtype=jnp.float32
+        ) * 0.02,
+        "wk": jax.random.normal(
+            wk_key, (d_model, d_model), dtype=jnp.float32
+        ) * 0.02,
+        "wv": jax.random.normal(
+            wv_key, (d_model, d_model), dtype=jnp.float32
+        ) * 0.02,
+        "wo": jax.random.normal(
+            wo_key, (d_model, d_model), dtype=jnp.float32
+        ) * 0.02,
+    }
 
 # Step 36 - project_qkv (not yet solved)
 # TODO: implement
