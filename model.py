@@ -242,8 +242,13 @@ def straight_through_quantize(latents, quantized):
     # Backward pass: gradient flows through latents.
     return latents + jax.lax.stop_gradient(quantized - latents)
 
-# Step 17 - codebook_loss (not yet solved)
-# TODO: implement
+# Step 17 - codebook_loss
+def codebook_loss(latents, quantized):
+    # Stop gradients from flowing into the encoder.
+    stopped_latents = jax.lax.stop_gradient(latents)
+
+    # Mean squared error over all patches and latent dimensions.
+    return jnp.mean((stopped_latents - quantized) ** 2)
 
 # Step 18 - commitment_loss (not yet solved)
 # TODO: implement
