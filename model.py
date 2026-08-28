@@ -216,8 +216,15 @@ def squared_distance_to_codebook(latent, codebook):
     # Compute squared Euclidean distance to every codebook vector.
     return jnp.sum((codebook - latent) ** 2, axis=1)
 
-# Step 13 - grid_distances_to_codebook (not yet solved)
-# TODO: implement
+# Step 13 - grid_distances_to_codebook
+def grid_distances_to_codebook(latents, codebook):
+    # Compute squared Euclidean distances:
+    # (P, 1, D) - (1, K, D) -> (P, K, D)
+    # Then sum over the latent dimension.
+    return jnp.sum(
+        (latents[:, None, :] - codebook[None, :, :]) ** 2,
+        axis=-1,
+    )
 
 # Step 14 - assign_nearest_codes (not yet solved)
 # TODO: implement
