@@ -756,8 +756,13 @@ def top_k_filter_logits(logits, k):
         -1e9,
     )
 
-# Step 56 - sample_token_index (not yet solved)
-# TODO: implement
+# Step 56 - sample_token_index
+def sample_token_index(probabilities, key):
+    # Sample one token ID from the given probability distribution.
+    return jax.random.categorical(
+        key,
+        jnp.log(probabilities),
+    )
 
 # Step 57 - generate_image_tokens (not yet solved)
 # TODO: implement
