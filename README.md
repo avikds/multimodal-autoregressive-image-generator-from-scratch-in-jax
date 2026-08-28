@@ -58,7 +58,7 @@ python scaffold.py
 - [x] **46.** transformer_backbone
 - [x] **47.** init_output_projection
 - [x] **48.** project_to_logits
-- [ ] **49.** image_token_cross_entropy
+- [x] **49.** image_token_cross_entropy
 - [ ] **50.** transformer_loss_and_grads
 - [ ] **51.** apply_transformer_update
 - [ ] **52.** drop_text_prefix

@@ -627,8 +627,16 @@ def project_to_logits(hidden_states, output_params):
     # Project hidden states to vocabulary logits.
     return hidden_states @ output_params["w_out"] + output_params["b_out"]
 
-# Step 49 - image_token_cross_entropy (not yet solved)
-# TODO: implement
+# Step 49 - image_token_cross_entropy
+def image_token_cross_entropy(logits, target_ids, image_start_index):
+    # Logits at position t predict the target at position t + 1.
+    image_logits = logits[image_start_index - 1:-1]
+    image_targets = target_ids[image_start_index:]
+
+    log_probs = jax.nn.log_softmax(image_logits, axis=-1)
+    losses = -log_probs[jnp.arange(image_targets.shape[0]), image_targets]
+
+    return jnp.mean(losses)
 
 # Step 50 - transformer_loss_and_grads (not yet solved)
 # TODO: implement
