@@ -533,8 +533,18 @@ def merge_heads_and_project(head_outputs, attn_params):
     # Apply the output projection.
     return merged @ attn_params["wo"]
 
-# Step 43 - init_feedforward_params (not yet solved)
-# TODO: implement
+# Step 43 - init_feedforward_params
+def init_feedforward_params(key, d_model, d_ff):
+    # Split the key so w1 and w2 use independent random draws.
+    key_w1, key_w2 = jax.random.split(key)
+
+    w1 = 0.02 * jax.random.normal(key_w1, (d_model, d_ff))
+    w2 = 0.02 * jax.random.normal(key_w2, (d_ff, d_model))
+
+    return {
+        "w1": w1,
+        "w2": w2,
+    }
 
 # Step 44 - feedforward_mlp (not yet solved)
 # TODO: implement
