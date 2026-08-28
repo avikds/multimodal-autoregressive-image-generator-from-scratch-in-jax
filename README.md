@@ -45,7 +45,7 @@ python scaffold.py
 - [x] **33.** build_causal_mask
 - [x] **34.** layer_norm
 - [x] **35.** init_attention_params
-- [ ] **36.** project_qkv
+- [x] **36.** project_qkv
 - [ ] **37.** reshape_to_heads
 - [ ] **38.** scaled_dot_product_scores
 - [ ] **39.** add_causal_mask_to_scores

@@ -485,8 +485,14 @@ def init_attention_params(key, d_model):
         ) * 0.02,
     }
 
-# Step 36 - project_qkv (not yet solved)
-# TODO: implement
+# Step 36 - project_qkv
+def project_qkv(x, attn_params):
+    # Project x into queries, keys, and values.
+    q = x @ attn_params["wq"]
+    k = x @ attn_params["wk"]
+    v = x @ attn_params["wv"]
+
+    return q, k, v
 
 # Step 37 - reshape_to_heads (not yet solved)
 # TODO: implement
