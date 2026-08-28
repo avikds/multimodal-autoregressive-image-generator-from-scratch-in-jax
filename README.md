@@ -70,7 +70,7 @@ python scaffold.py
 - [x] **58.** decode_tokens_to_image
 - [x] **59.** next_token_accuracy
 - [x] **60.** average_reconstruction_error
-- [ ] **61.** nearest_neighbor_distance_to_dataset
+- [x] **61.** nearest_neighbor_distance_to_dataset
 - [ ] **62.** train_vqvae_on_toy_images
 - [ ] **63.** train_transformer_on_token_sequences
 - [ ] **64.** generate_image_from_label

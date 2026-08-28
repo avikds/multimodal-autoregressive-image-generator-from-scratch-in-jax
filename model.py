@@ -1021,8 +1021,20 @@ def average_reconstruction_error(
 
     return jnp.mean(jnp.stack(errors))
 
-# Step 61 - nearest_neighbor_distance_to_dataset (not yet solved)
-# TODO: implement
+# Step 61 - nearest_neighbor_distance_to_dataset
+def nearest_neighbor_distance_to_dataset(generated_image, dataset_images):
+    # Flatten the generated image and every dataset image.
+    generated_flat = generated_image.reshape(-1)
+    dataset_flat = dataset_images.reshape(dataset_images.shape[0], -1)
+
+    # Compute squared Euclidean distance to every dataset image.
+    distances = jnp.sum(
+        (dataset_flat - generated_flat) ** 2,
+        axis=1,
+    )
+
+    # Return the distance to the closest dataset image.
+    return jnp.min(distances)
 
 # Step 62 - train_vqvae_on_toy_images (not yet solved)
 # TODO: implement
