@@ -35,7 +35,7 @@ python scaffold.py
 - [x] **23.** encode_image_to_tokens
 - [x] **24.** flatten_token_grid
 - [x] **25.** reshape_tokens_to_grid
-- [ ] **26.** build_char_vocab
+- [x] **26.** build_char_vocab
 - [ ] **27.** encode_label_to_ids
 - [ ] **28.** form_multimodal_sequence
 - [ ] **29.** init_token_embedding

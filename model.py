@@ -393,8 +393,12 @@ def reshape_tokens_to_grid(token_sequence, grid_h, grid_w):
     # Restore the 1D row-major token sequence to a 2D grid.
     return token_sequence.reshape(grid_h, grid_w)
 
-# Step 26 - build_char_vocab (not yet solved)
-# TODO: implement
+# Step 26 - build_char_vocab
+def build_char_vocab(labels):
+    # Collect every unique character and sort for deterministic ordering.
+    characters = sorted(set(char for label in labels for char in label))
+
+    return {char: idx for idx, char in enumerate(characters)}
 
 # Step 27 - encode_label_to_ids (not yet solved)
 # TODO: implement
