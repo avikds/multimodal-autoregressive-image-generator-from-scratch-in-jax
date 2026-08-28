@@ -87,8 +87,17 @@ def assign_image_labels(images):
         for left, right in zip(left_mass, right_mass)
     ]
 
-# Step 3 - normalize_image_batch (not yet solved)
-# TODO: implement
+# Step 3 - normalize_image_batch
+def normalize_image_batch(images):
+    """Rescale image values from [0, 1] to [-1, 1].
+
+    Args:
+        images: JAX array containing image pixel values in [0, 1].
+
+    Returns:
+        jnp.ndarray: Images with the same shape, rescaled to [-1, 1].
+    """
+    return 2.0 * jnp.asarray(images) - 1.0
 
 # Step 4 - split_image_into_patches (not yet solved)
 # TODO: implement

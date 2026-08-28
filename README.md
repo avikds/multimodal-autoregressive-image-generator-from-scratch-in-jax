@@ -12,7 +12,7 @@ python scaffold.py
 
 - [x] **1.** generate_toy_images
 - [x] **2.** assign_image_labels
-- [ ] **3.** normalize_image_batch
+- [x] **3.** normalize_image_batch
 - [ ] **4.** split_image_into_patches
 - [ ] **5.** flatten_patches
 - [ ] **6.** init_patch_encoder
