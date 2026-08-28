@@ -506,8 +506,10 @@ def scaled_dot_product_scores(q_heads, k_heads):
     d_head = q_heads.shape[-1]
     return jnp.matmul(q_heads, jnp.swapaxes(k_heads, -1, -2)) / jnp.sqrt(d_head)
 
-# Step 39 - add_causal_mask_to_scores (not yet solved)
-# TODO: implement
+# Step 39 - add_causal_mask_to_scores
+def add_causal_mask_to_scores(scores, causal_mask):
+    # Broadcast the causal mask across all attention heads.
+    return scores + causal_mask
 
 # Step 40 - attention_weights_softmax (not yet solved)
 # TODO: implement
