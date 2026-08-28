@@ -744,8 +744,17 @@ def logits_to_probabilities(logits, temperature):
 
     return exp_logits / jnp.sum(exp_logits, axis=-1, keepdims=True)
 
-# Step 55 - top_k_filter_logits (not yet solved)
-# TODO: implement
+# Step 55 - top_k_filter_logits
+def top_k_filter_logits(logits, k):
+    # Find the k-th largest logit.
+    kth_value = jnp.sort(logits)[-k]
+
+    # Keep logits greater than or equal to the threshold.
+    return jnp.where(
+        logits >= kth_value,
+        logits,
+        -1e9,
+    )
 
 # Step 56 - sample_token_index (not yet solved)
 # TODO: implement

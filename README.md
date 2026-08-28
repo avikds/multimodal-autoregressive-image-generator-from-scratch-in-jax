@@ -64,7 +64,7 @@ python scaffold.py
 - [x] **52.** drop_text_prefix
 - [x] **53.** combine_guided_logits
 - [x] **54.** logits_to_probabilities
-- [ ] **55.** top_k_filter_logits
+- [x] **55.** top_k_filter_logits
 - [ ] **56.** sample_token_index
 - [ ] **57.** generate_image_tokens
 - [ ] **58.** decode_tokens_to_image
