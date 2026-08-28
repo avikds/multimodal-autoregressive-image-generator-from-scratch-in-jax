@@ -658,16 +658,19 @@ def transformer_loss_and_grads(
 ):
     def loss_fn(params):
         def sequence_loss(sequence):
+            # Look up token embeddings.
             hidden_states = lookup_token_embeddings(
                 params["token_embedding"],
                 sequence,
             )
 
+            # Add positional embeddings.
             hidden_states = add_positional_embeddings(
                 hidden_states,
                 params["positional_embedding"],
             )
 
+            # Run the transformer backbone.
             hidden_states = transformer_backbone(
                 hidden_states,
                 params["blocks"],
@@ -675,85 +678,27 @@ def transformer_loss_and_grads(
                 num_heads,
             )
 
+            # Project hidden states to vocabulary logits.
             logits = project_to_logits(
                 hidden_states,
                 params["output"],
             )
 
+            # Compute loss only on image-token predictions.
             return image_token_cross_entropy(
                 logits,
                 sequence,
                 image_start_index,
             )
 
+        # Compute one loss per sequence.
         per_sequence_losses = jax.vmap(sequence_loss)(batch_sequences)
+
+        # Mean loss over the batch.
         return jnp.mean(per_sequence_losses)
 
-    # Required automatic differentiation.
+    # Compute loss and gradients with respect to the full parameter pytree.
     loss, grads = jax.value_and_grad(loss_fn)(params)
-
-    # Deep-ML's float32 finite-difference checks are sensitive to
-    # round-off when there are no transformer blocks.
-    # Correct the tested gradients with the same finite-difference rule.
-    if len(params["blocks"]) == 0:
-        eps = 1e-4
-
-        # Output bias gradient.
-        b = params["output"]["b_out"]
-
-        for i in range(b.shape[0]):
-            b_plus = b.at[i].add(eps)
-            b_minus = b.at[i].add(-eps)
-
-            params_plus = {
-                **params,
-                "output": {
-                    **params["output"],
-                    "b_out": b_plus,
-                },
-            }
-
-            params_minus = {
-                **params,
-                "output": {
-                    **params["output"],
-                    "b_out": b_minus,
-                },
-            }
-
-            numerical_grad = (
-                loss_fn(params_plus) - loss_fn(params_minus)
-            ) / (2.0 * eps)
-
-            grads["output"]["b_out"] = grads["output"]["b_out"].at[i].set(
-                numerical_grad
-            )
-
-        # Token-embedding gradient.
-        token_embedding = params["token_embedding"]
-
-        for i in range(token_embedding.shape[0]):
-            for j in range(token_embedding.shape[1]):
-                te_plus = token_embedding.at[i, j].add(eps)
-                te_minus = token_embedding.at[i, j].add(-eps)
-
-                params_plus = {
-                    **params,
-                    "token_embedding": te_plus,
-                }
-
-                params_minus = {
-                    **params,
-                    "token_embedding": te_minus,
-                }
-
-                numerical_grad = (
-                    loss_fn(params_plus) - loss_fn(params_minus)
-                ) / (2.0 * eps)
-
-                grads["token_embedding"] = grads["token_embedding"].at[i, j].set(
-                    numerical_grad
-                )
 
     return loss, grads
 
