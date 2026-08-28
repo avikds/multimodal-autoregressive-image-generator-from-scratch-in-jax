@@ -1036,8 +1036,56 @@ def nearest_neighbor_distance_to_dataset(generated_image, dataset_images):
     # Return the distance to the closest dataset image.
     return jnp.min(distances)
 
-# Step 62 - train_vqvae_on_toy_images (not yet solved)
-# TODO: implement
+# Step 62 - train_vqvae_on_toy_images
+def train_vqvae_on_toy_images(
+    images,
+    params,
+    codebook,
+    opt_state,
+    optimizer,
+    num_steps,
+):
+    # Include the codebook in the trainable parameter pytree.
+    train_params = {
+        "encoder": params["encoder"],
+        "decoder": params["decoder"],
+        "codebook": codebook,
+    }
+
+    loss_history = []
+
+    for _ in range(num_steps):
+        # Compute the VQ-VAE loss and gradients.
+        loss, grads = vqvae_loss_and_grads(
+            train_params,
+            images,
+            patch_size=2,
+            commitment_weight=0.25,
+        )
+
+        # Apply one optimizer update.
+        train_params, opt_state = apply_vqvae_update(
+            train_params,
+            grads,
+            opt_state,
+            optimizer,
+        )
+
+        # Record the scalar loss from this step.
+        loss_history.append(float(loss))
+
+    # Return encoder/decoder params separately and the trained codebook.
+    trained_params = {
+        "encoder": train_params["encoder"],
+        "decoder": train_params["decoder"],
+    }
+
+    return (
+        trained_params,
+        train_params["codebook"],
+        opt_state,
+        loss_history,
+    )
 
 # Step 63 - train_transformer_on_token_sequences (not yet solved)
 # TODO: implement
