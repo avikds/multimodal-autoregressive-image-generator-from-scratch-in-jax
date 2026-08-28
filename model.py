@@ -434,8 +434,10 @@ def init_positional_embedding(key, max_seq_len, embed_dim):
         dtype=jnp.float32,
     ) * 0.02
 
-# Step 31 - lookup_token_embeddings (not yet solved)
-# TODO: implement
+# Step 31 - lookup_token_embeddings
+def lookup_token_embeddings(token_embedding, token_ids):
+    # Select the embedding vector for each token ID.
+    return token_embedding[token_ids]
 
 # Step 32 - add_positional_embeddings (not yet solved)
 # TODO: implement
