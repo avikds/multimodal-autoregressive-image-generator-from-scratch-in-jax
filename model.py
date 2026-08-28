@@ -713,8 +713,21 @@ def apply_transformer_update(params, grads, opt_state, optimizer):
 
     return new_params, new_opt_state
 
-# Step 52 - drop_text_prefix (not yet solved)
-# TODO: implement
+# Step 52 - drop_text_prefix
+def drop_text_prefix(
+    sequence,
+    key,
+    image_start_index,
+    drop_prob,
+    null_token_id,
+):
+    # Make one Bernoulli draw for the entire text prefix.
+    drop = jax.random.bernoulli(key, drop_prob)
+
+    # Replace only the text-prefix positions when dropping.
+    dropped_sequence = sequence.at[:image_start_index].set(null_token_id)
+
+    return jnp.where(drop, dropped_sequence, sequence).astype(jnp.int32)
 
 # Step 53 - combine_guided_logits (not yet solved)
 # TODO: implement
