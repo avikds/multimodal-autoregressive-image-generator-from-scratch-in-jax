@@ -699,8 +699,19 @@ def transformer_loss_and_grads(
 
     return loss, grads
 
-# Step 51 - apply_transformer_update (not yet solved)
-# TODO: implement
+# Step 51 - apply_transformer_update
+def apply_transformer_update(params, grads, opt_state, optimizer):
+    # Compute parameter updates and the new optimizer state.
+    updates, new_opt_state = optimizer.update(
+        grads,
+        opt_state,
+        params,
+    )
+
+    # Apply the updates to the current parameters.
+    new_params = optax.apply_updates(params, updates)
+
+    return new_params, new_opt_state
 
 # Step 52 - drop_text_prefix (not yet solved)
 # TODO: implement

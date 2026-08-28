@@ -60,7 +60,7 @@ python scaffold.py
 - [x] **48.** project_to_logits
 - [x] **49.** image_token_cross_entropy
 - [x] **50.** transformer_loss_and_grads
-- [ ] **51.** apply_transformer_update
+- [x] **51.** apply_transformer_update
 - [ ] **52.** drop_text_prefix
 - [ ] **53.** combine_guided_logits
 - [ ] **54.** logits_to_probabilities
