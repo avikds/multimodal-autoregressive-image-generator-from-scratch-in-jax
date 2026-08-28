@@ -63,8 +63,29 @@ def generate_toy_images(key, num_images, image_size):
     # Generate and stack all images into one JAX array.
     return jnp.stack([make_image(k) for k in keys])
 
-# Step 2 - assign_image_labels (not yet solved)
-# TODO: implement
+# Step 2 - assign_image_labels
+def assign_image_labels(images):
+    """Assign 'left' or 'right' labels based on pixel mass.
+
+    Args:
+        images: JAX array of shape
+            (num_images, image_size, image_size).
+
+    Returns:
+        list[str]: One label per image. Ties are labeled 'left'.
+    """
+    image_size = images.shape[-1]
+    midpoint = image_size // 2
+
+    # Calculate total brightness in the left and right halves.
+    left_mass = jnp.sum(images[:, :, :midpoint], axis=(1, 2))
+    right_mass = jnp.sum(images[:, :, midpoint:], axis=(1, 2))
+
+    # Exact ties are resolved in favor of "left".
+    return [
+        "left" if float(left) >= float(right) else "right"
+        for left, right in zip(left_mass, right_mass)
+    ]
 
 # Step 3 - normalize_image_batch (not yet solved)
 # TODO: implement
