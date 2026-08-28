@@ -956,8 +956,70 @@ def next_token_accuracy(
     # Average accuracy across the batch.
     return jnp.mean(jnp.stack(accuracies))
 
-# Step 60 - average_reconstruction_error (not yet solved)
-# TODO: implement
+# Step 60 - average_reconstruction_error
+def average_reconstruction_error(
+    encoder_params,
+    decoder_params,
+    codebook,
+    image_batch,
+    patch_size,
+):
+    errors = []
+
+    for image in image_batch:
+        # Normalize the image to the [-1, 1] space used by the VQ-VAE.
+        normalized_image = normalize_image_batch(image)
+
+        # Split into patches and flatten them.
+        patches = split_image_into_patches(
+            normalized_image,
+            patch_size,
+        )
+        flat_patches = flatten_patches(patches)
+
+        # Encode patches.
+        latents = encode_patches(
+            flat_patches,
+            encoder_params["weight"],
+        )
+
+        # Find the nearest codebook entry for each latent.
+        distances = grid_distances_to_codebook(
+            latents,
+            codebook,
+        )
+        indices = assign_nearest_codes(distances)
+
+        # Look up the quantized latent vectors.
+        quantized = lookup_codebook_vectors(
+            indices,
+            codebook,
+        )
+
+        # Decode the quantized latents.
+        decoded_patches = decode_latents(
+            quantized,
+            decoder_params["weight"],
+        )
+
+        # Reassemble the reconstructed image.
+        grid_h, grid_w = patches.shape[:2]
+        reconstruction = reassemble_patches_into_image(
+            decoded_patches,
+            grid_h,
+            grid_w,
+            patch_size,
+        )
+
+        # Compute reconstruction error in normalized space.
+        error = reconstruction_loss(
+            normalized_image,
+            reconstruction,
+        )
+
+        errors.append(error)
+
+    return jnp.mean(jnp.stack(errors))
 
 # Step 61 - nearest_neighbor_distance_to_dataset (not yet solved)
 # TODO: implement
