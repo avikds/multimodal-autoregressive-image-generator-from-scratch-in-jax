@@ -764,8 +764,107 @@ def sample_token_index(probabilities, key):
         jnp.log(probabilities),
     )
 
-# Step 57 - generate_image_tokens (not yet solved)
-# TODO: implement
+# Step 57 - generate_image_tokens
+def generate_image_tokens(
+    params,
+    text_prefix,
+    key,
+    num_image_tokens,
+    num_heads,
+    null_prefix,
+    guidance_scale,
+    temperature,
+    top_k,
+):
+    generated_tokens = jnp.array([], dtype=jnp.int32)
+
+    for _ in range(num_image_tokens):
+        key, sample_key = jax.random.split(key)
+
+        # Conditional sequence: text prefix + generated image tokens.
+        cond_sequence = jnp.concatenate(
+            [text_prefix, generated_tokens]
+        )
+
+        # Unconditional sequence: null prefix + same generated tokens.
+        uncond_sequence = jnp.concatenate(
+            [null_prefix, generated_tokens]
+        )
+
+        # Run the transformer on the conditional sequence.
+        cond_embeds = lookup_token_embeddings(
+            params["token_embedding"],
+            cond_sequence,
+        )
+        cond_embeds = add_positional_embeddings(
+            cond_embeds,
+            params["positional_embedding"],
+        )
+        cond_hidden = transformer_backbone(
+            cond_embeds,
+            params["blocks"],
+            build_causal_mask(cond_sequence.shape[0]),
+            num_heads,
+        )
+        cond_logits = project_to_logits(
+            cond_hidden,
+            params["output"],
+        )[-1]
+
+        # Run the transformer on the unconditional sequence.
+        uncond_embeds = lookup_token_embeddings(
+            params["token_embedding"],
+            uncond_sequence,
+        )
+        uncond_embeds = add_positional_embeddings(
+            uncond_embeds,
+            params["positional_embedding"],
+        )
+        uncond_hidden = transformer_backbone(
+            uncond_embeds,
+            params["blocks"],
+            build_causal_mask(uncond_sequence.shape[0]),
+            num_heads,
+        )
+        uncond_logits = project_to_logits(
+            uncond_hidden,
+            params["output"],
+        )[-1]
+
+        # Classifier-free guidance.
+        guided_logits = combine_guided_logits(
+            cond_logits,
+            uncond_logits,
+            guidance_scale,
+        )
+
+        # Restrict sampling to the top-k logits.
+        filtered_logits = top_k_filter_logits(
+            guided_logits,
+            top_k,
+        )
+
+        # Convert logits to probabilities using temperature.
+        probabilities = logits_to_probabilities(
+            filtered_logits,
+            temperature,
+        )
+
+        # Sample the next image token.
+        next_token = sample_token_index(
+            probabilities,
+            sample_key,
+        )
+
+        # Append it to the generated image-token sequence.
+        generated_tokens = jnp.concatenate(
+            [
+                generated_tokens,
+                jnp.array([next_token], dtype=jnp.int32),
+            ]
+        )
+
+    return generated_tokens
 
 # Step 58 - decode_tokens_to_image (not yet solved)
 # TODO: implement

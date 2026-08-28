@@ -66,7 +66,7 @@ python scaffold.py
 - [x] **54.** logits_to_probabilities
 - [x] **55.** top_k_filter_logits
 - [x] **56.** sample_token_index
-- [ ] **57.** generate_image_tokens
+- [x] **57.** generate_image_tokens
 - [ ] **58.** decode_tokens_to_image
 - [ ] **59.** next_token_accuracy
 - [ ] **60.** average_reconstruction_error
