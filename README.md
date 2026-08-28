@@ -72,7 +72,7 @@ python scaffold.py
 - [x] **60.** average_reconstruction_error
 - [x] **61.** nearest_neighbor_distance_to_dataset
 - [x] **62.** train_vqvae_on_toy_images
-- [ ] **63.** train_transformer_on_token_sequences
+- [x] **63.** train_transformer_on_token_sequences
 - [ ] **64.** generate_image_from_label
 
 ---

@@ -1087,8 +1087,45 @@ def train_vqvae_on_toy_images(
         loss_history,
     )
 
-# Step 63 - train_transformer_on_token_sequences (not yet solved)
-# TODO: implement
+# Step 63 - train_transformer_on_token_sequences
+def train_transformer_on_token_sequences(
+    sequences,
+    params,
+    opt_state,
+    optimizer,
+    text_len,
+    num_steps,
+):
+    seq_len = sequences.shape[1]
+    causal_mask = build_causal_mask(seq_len)
+
+    # The project scaffold uses one attention head for this training loop.
+    num_heads = 1
+
+    loss_history = []
+
+    for _ in range(num_steps):
+        # Compute loss and gradients before updating parameters.
+        loss, grads = transformer_loss_and_grads(
+            params,
+            sequences,
+            causal_mask,
+            num_heads,
+            text_len,
+        )
+
+        # Record the loss from the current parameters.
+        loss_history.append(float(loss))
+
+        # Apply one optimizer step.
+        params, opt_state = apply_transformer_update(
+            params,
+            grads,
+            opt_state,
+            optimizer,
+        )
+
+    return params, opt_state, loss_history
 
 # Step 64 - generate_image_from_label (not yet solved)
 # TODO: implement
