@@ -267,8 +267,82 @@ def reconstruction_loss(image, reconstruction):
 def total_vqvae_loss(recon_loss, cb_loss, commit_loss, commitment_weight):
     return recon_loss + cb_loss + commitment_weight * commit_loss
 
-# Step 21 - vqvae_loss_and_grads (not yet solved)
-# TODO: implement
+# Step 21 - vqvae_loss_and_grads
+def vqvae_loss_and_grads(params, image_batch, patch_size, commitment_weight):
+
+    def loss_fn(params):
+        encoder_weight = params["encoder"]
+        decoder_weight = params["decoder"]
+        codebook = params["codebook"]
+
+        def image_loss(image):
+            # Split image into patches.
+            patches = split_image_into_patches(image, patch_size)
+
+            # Flatten the patch grid.
+            flat_patches = flatten_patches(patches)
+
+            # Encode patches into latent vectors.
+            latents = encode_patches(flat_patches, encoder_weight)
+
+            # Compute distances to every codebook vector.
+            distances = grid_distances_to_codebook(latents, codebook)
+
+            # Select the nearest codebook entry for each latent.
+            indices = assign_nearest_codes(distances)
+
+            # Look up the corresponding quantized vectors.
+            quantized = lookup_codebook_vectors(indices, codebook)
+
+            # Straight-through estimator.
+            quantized_st = straight_through_quantize(latents, quantized)
+
+            # Decode the quantized latents back into flat patches.
+            decoded_patches = decode_latents(
+                quantized_st,
+                decoder_weight,
+            )
+
+            # Reassemble patches into the reconstructed image.
+            grid_h, grid_w = patches.shape[:2]
+
+            reconstruction = reassemble_patches_into_image(
+                decoded_patches,
+                grid_h,
+                grid_w,
+                patch_size,
+            )
+
+            # Compute the three VQ-VAE loss terms.
+            recon_loss = reconstruction_loss(
+                image,
+                reconstruction,
+            )
+
+            cb_loss = codebook_loss(
+                latents,
+                quantized,
+            )
+
+            commit_loss = commitment_loss(
+                latents,
+                quantized,
+            )
+
+            return total_vqvae_loss(
+                recon_loss,
+                cb_loss,
+                commit_loss,
+                commitment_weight,
+            )
+
+        # Average the loss across the image batch.
+        losses = jax.vmap(image_loss)(image_batch)
+        return jnp.mean(losses)
+
+    loss, grads = jax.value_and_grad(loss_fn)(params)
+
+    return loss, grads
 
 # Step 22 - apply_vqvae_update (not yet solved)
 # TODO: implement
