@@ -29,7 +29,7 @@ python scaffold.py
 - [x] **17.** codebook_loss
 - [x] **18.** commitment_loss
 - [x] **19.** reconstruction_loss
-- [ ] **20.** total_vqvae_loss
+- [x] **20.** total_vqvae_loss
 - [ ] **21.** vqvae_loss_and_grads
 - [ ] **22.** apply_vqvae_update
 - [ ] **23.** encode_image_to_tokens

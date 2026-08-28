@@ -263,8 +263,9 @@ def reconstruction_loss(image, reconstruction):
     # Mean squared error over all pixels.
     return jnp.mean((image - reconstruction) ** 2)
 
-# Step 20 - total_vqvae_loss (not yet solved)
-# TODO: implement
+# Step 20 - total_vqvae_loss
+def total_vqvae_loss(recon_loss, cb_loss, commit_loss, commitment_weight):
+    return recon_loss + cb_loss + commitment_weight * commit_loss
 
 # Step 21 - vqvae_loss_and_grads (not yet solved)
 # TODO: implement
