@@ -75,17 +75,6 @@ python scaffold.py
 - [x] **63.** train_transformer_on_token_sequences
 - [x] **64.** generate_image_from_label
 
-## Results
+---
 
-```
-num images: 16 | labels sample: ['right', 'right', 'left']
-char vocab size: 8
-VQ-VAE loss (first->last): 2.9188 -> 2.0010
-token sequence shape: (16, 22)
-example sequence: [6, 4, 2, 3, 7, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 11, 11, 21, 21, 19, 19]
-transformer loss (first->last): 3.2201 -> 1.1709
-next-token accuracy (image positions): 0.6953
-generated image shape: (8, 8)
-generated image[0]: [-0.07909999787807465, -0.5026999711990356, -0.07909999787807465, -0.5026999711990356, -0.07909999787807465, -0.5026999711990356, -0.07909999787807465, -0.5026999711990356]
-nearest-neighbor distance to dataset: 44.7621
-```
+Built on Deep-ML.

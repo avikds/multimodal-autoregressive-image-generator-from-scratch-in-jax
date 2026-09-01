@@ -14,7 +14,7 @@ import jax
 import jax.numpy as jnp
 import optax
 
-from model import (
+from solution import (
     generate_toy_images, assign_image_labels, normalize_image_batch,
     split_image_into_patches, flatten_patches, init_patch_encoder, encode_patches,
     init_patch_decoder, decode_latents, reassemble_patches_into_image,
